@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
+const db = require('./db');
 const PORT = process.env.PORT || 3001;
 
 const app = express();
@@ -8,7 +9,10 @@ const app = express();
 app.use(express.json());
 
 // get all gifts
-app.get('/api/v1/gifts', (req, res) => {
+app.get('/api/v1/gifts', async (req, res) => {
+  const results = await db.query('SELECT * FROM gifts');
+  console.log(results);
+
   res.status(200).json({
     status: 'success',
     data: {

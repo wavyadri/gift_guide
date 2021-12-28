@@ -10,15 +10,18 @@ app.use(express.json());
 
 // get all gifts
 app.get('/api/v1/gifts', async (req, res) => {
-  const results = await db.query('SELECT * FROM gifts');
-  console.log(results);
-
-  res.status(200).json({
-    status: 'success',
-    data: {
-      gift: ['raptors ticket', 'pandora ring'],
-    },
-  });
+  try {
+    const results = await db.query('SELECT * FROM gifts');
+    res.status(200).json({
+      status: 'success',
+      results: results.rows.length,
+      data: {
+        gifts: results.rows,
+      },
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
 });
 
 // get a gift

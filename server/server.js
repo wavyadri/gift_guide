@@ -49,7 +49,6 @@ app.post('/api/v1/gifts', async (req, res) => {
       'INSERT INTO gifts (name, vendor, price_range) VALUES ($1, $2, $3) RETURNING *',
       values
     );
-    console.log(results);
     res.status(201).json({
       status: 'success',
       data: {
@@ -62,16 +61,27 @@ app.post('/api/v1/gifts', async (req, res) => {
 });
 
 // update gift
-app.put('/api/v1/gifts/:id', (req, res) => {
-  console.log('put request');
-  console.log(req.params.id);
-  console.log(req.body);
-  res.status(200).json({
-    status: 'success',
-    data: {
-      gift: 'essential oil',
-    },
-  });
+app.put('/api/v1/gifts/:id', async (req, res) => {
+  const values = [
+    req.body.name,
+    req.body.vendor,
+    req.body.price_range,
+    req.params.id,
+  ];
+  try {
+    const results = await db.query(
+      'UPDATE gifts SET name = $1, vendor = $2, price_range = $3 WHERE id = $4 RETURNING *',
+      values
+    );
+    res.status(200).json({
+      status: 'success',
+      data: {
+        gift: results.rows[0],
+      },
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
 });
 
 // delete gift

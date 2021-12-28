@@ -25,16 +25,20 @@ app.get('/api/v1/gifts', async (req, res) => {
 });
 
 // get a gift
-app.get('/api/v1/gifts/:id', (req, res) => {
-  console.log('get request');
-
-  console.log(req.params);
-  res.status(200).json({
-    status: 'success',
-    data: {
-      gift: 'raptors ticket',
-    },
-  });
+app.get('/api/v1/gifts/:id', async (req, res) => {
+  console.log(req.params.id);
+  const values = [req.params.id];
+  try {
+    const results = await db.query('SELECT * FROM gifts WHERE id = $1', values);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        gift: results.rows[0],
+      },
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
 });
 
 // create a gift

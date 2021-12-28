@@ -26,7 +26,6 @@ app.get('/api/v1/gifts', async (req, res) => {
 
 // get a gift
 app.get('/api/v1/gifts/:id', async (req, res) => {
-  console.log(req.params.id);
   const values = [req.params.id];
   try {
     const results = await db.query('SELECT * FROM gifts WHERE id = $1', values);
@@ -42,16 +41,24 @@ app.get('/api/v1/gifts/:id', async (req, res) => {
 });
 
 // create a gift
-app.post('/api/v1/gifts', (req, res) => {
-  console.log('post request');
-
-  console.log(req);
-  res.status(201).json({
-    status: 'success',
-    data: {
-      gift: 'essential oil',
-    },
-  });
+app.post('/api/v1/gifts', async (req, res) => {
+  console.log(req.body);
+  const values = [req.body.name, req.body.vendor, req.body.price_range];
+  try {
+    const results = await db.query(
+      'INSERT INTO gifts (name, vendor, price_range) VALUES ($1, $2, $3) RETURNING *',
+      values
+    );
+    console.log(results);
+    res.status(201).json({
+      status: 'success',
+      data: {
+        gift: results.rows[0],
+      },
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
 });
 
 // update gift

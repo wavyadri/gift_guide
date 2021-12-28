@@ -42,7 +42,6 @@ app.get('/api/v1/gifts/:id', async (req, res) => {
 
 // create a gift
 app.post('/api/v1/gifts', async (req, res) => {
-  console.log(req.body);
   const values = [req.body.name, req.body.vendor, req.body.price_range];
   try {
     const results = await db.query(
@@ -85,10 +84,16 @@ app.put('/api/v1/gifts/:id', async (req, res) => {
 });
 
 // delete gift
-app.delete('/api/v1/gifts/:id', (req, res) => {
-  res.status(204).json({
-    status: 'success',
-  });
+app.delete('/api/v1/gifts/:id', async (req, res) => {
+  const values = [req.params.id];
+  try {
+    const results = await db.query('DELETE FROM gifts WHERE id = $1', values);
+    res.status(204).json({
+      status: 'success',
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
 });
 
 app.listen(PORT, () => {

@@ -1,7 +1,16 @@
 import React from 'react';
+import Header from '../components/Header';
+import AddGift from '../components/AddGift';
+import GiftList from '../components/GiftsList';
 
 const Home = () => {
-  return <h1>Home</h1>;
+  return (
+    <div className='container'>
+      <Header />
+      <AddGift />
+      <GiftList />
+    </div>
+  );
 };
 
 export default Home;

@@ -9,6 +9,7 @@ const GiftList = () => {
       const response = await GiftFinder.get('/');
       setGifts(response.data.data.gifts);
       // console.log(response);
+      console.log(gifts);
     } catch (err) {
       console.log(err.message);
     }
@@ -31,7 +32,24 @@ const GiftList = () => {
           </tr>
         </thead>
         <tbody className='table-dark'>
-          <tr>
+          {gifts &&
+            gifts.map((item) => {
+              return (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>{item.vendor}</td>
+                  <td>{'$'.repeat(item.price_range)}</td>
+                  <td>ratings</td>
+                  <td>
+                    <button className='btn btn-warning'>update</button>
+                  </td>
+                  <td>
+                    <button className='btn btn-danger'>delete</button>
+                  </td>
+                </tr>
+              );
+            })}
+          {/* <tr>
             <td>goggles</td>
             <td>winners</td>
             <td>$$</td>
@@ -42,7 +60,7 @@ const GiftList = () => {
             <td>
               <button className='btn btn-danger'>delete</button>
             </td>
-          </tr>
+          </tr> */}
         </tbody>
       </table>
     </div>

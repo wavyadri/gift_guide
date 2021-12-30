@@ -1,14 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import GiftFinder from '../apis/GiftFinder';
+import { GiftsContext } from '../context/GiftsContext';
 
 const GiftList = () => {
-  useEffect(async () => {
+  const { gifts, setGifts } = useContext(GiftsContext);
+  const fetchData = async () => {
     try {
       const response = await GiftFinder.get('/');
-      console.log(response);
+      setGifts(response.data.data.gifts);
+      // console.log(response);
     } catch (err) {
       console.log(err.message);
     }
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
   return (
     <div className='list-group'>
@@ -33,7 +40,7 @@ const GiftList = () => {
               <button className='btn btn-warning'>update</button>
             </td>
             <td>
-              <button className='=btn btn-danger'>delete</button>
+              <button className='btn btn-danger'>delete</button>
             </td>
           </tr>
         </tbody>

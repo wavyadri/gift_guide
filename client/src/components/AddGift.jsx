@@ -13,7 +13,7 @@ const AddGift = () => {
           </div>
           <div className='col'>
             <select className='custom-select mr-sm-2 form-select'>
-              <option disabled selected>
+              <option disabled defaultValue>
                 Price Range
               </option>
               <option value='1'>$</option>

@@ -1,6 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import GiftFinder from '../apis/GiftFinder';
 
 const GiftList = () => {
+  useEffect(async () => {
+    try {
+      const response = await GiftFinder.get('/');
+      console.log(response);
+    } catch (err) {
+      console.log(err.message);
+    }
+  }, []);
   return (
     <div className='list-group'>
       <table className='table table-hover'>

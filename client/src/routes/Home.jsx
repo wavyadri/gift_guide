@@ -5,11 +5,11 @@ import GiftList from '../components/GiftsList';
 
 const Home = () => {
   return (
-    <div className='container'>
+    <>
       <Header />
       <AddGift />
       <GiftList />
-    </div>
+    </>
   );
 };
 

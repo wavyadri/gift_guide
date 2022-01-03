@@ -8,8 +8,6 @@ const GiftList = () => {
     try {
       const response = await GiftFinder.get('/');
       setGifts(response.data.data.gifts);
-      // console.log(response);
-      console.log(gifts);
     } catch (err) {
       console.log(err.message);
     }
@@ -49,18 +47,6 @@ const GiftList = () => {
                 </tr>
               );
             })}
-          {/* <tr>
-            <td>goggles</td>
-            <td>winners</td>
-            <td>$$</td>
-            <td>ratings</td>
-            <td>
-              <button className='btn btn-warning'>update</button>
-            </td>
-            <td>
-              <button className='btn btn-danger'>delete</button>
-            </td>
-          </tr> */}
         </tbody>
       </table>
     </div>

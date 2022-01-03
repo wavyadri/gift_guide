@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useParams } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import GiftFinder from '../apis/GiftFinder';
 import { GiftsContext } from '../context/GiftsContext';
 
@@ -50,7 +51,9 @@ const GiftList = () => {
                   <td>{'$'.repeat(item.price_range)}</td>
                   <td>ratings</td>
                   <td>
-                    <button className='btn btn-warning'>update</button>
+                    <Link to={`/gifts/${item.id}/update`}>
+                      <button className='btn btn-warning'>update</button>
+                    </Link>
                   </td>
                   <td>
                     <button

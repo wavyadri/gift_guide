@@ -9,8 +9,15 @@ const GiftsContextProvider = (props) => {
     setGifts([...gifts, gift]);
   };
 
+  const deleteGift = (giftId) => {
+    const updatedGifts = gifts.filter((gift) => {
+      return gift.id !== giftId;
+    });
+    setGifts(updatedGifts);
+  };
+
   return (
-    <GiftsContext.Provider value={{ gifts, setGifts, addGift }}>
+    <GiftsContext.Provider value={{ gifts, setGifts, addGift, deleteGift }}>
       {props.children}
     </GiftsContext.Provider>
   );

@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useParams } from 'react';
 import GiftFinder from '../apis/GiftFinder';
 import { GiftsContext } from '../context/GiftsContext';
 
 const GiftList = () => {
-  const { gifts, setGifts } = useContext(GiftsContext);
+  const { gifts, setGifts, deleteGift } = useContext(GiftsContext);
   const fetchData = async () => {
     try {
       const response = await GiftFinder.get('/');
@@ -16,6 +16,17 @@ const GiftList = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await GiftFinder.delete(`/${id}`);
+      deleteGift(id);
+      console.log(response);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
     <div className='list-group'>
       <table className='table table-hover'>
@@ -42,7 +53,12 @@ const GiftList = () => {
                     <button className='btn btn-warning'>update</button>
                   </td>
                   <td>
-                    <button className='btn btn-danger'>delete</button>
+                    <button
+                      className='btn btn-danger'
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      delete
+                    </button>
                   </td>
                 </tr>
               );

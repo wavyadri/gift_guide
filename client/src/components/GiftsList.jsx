@@ -1,6 +1,32 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import GiftFinder from '../apis/GiftFinder';
+import { GiftsContext } from '../context/GiftsContext';
 
 const GiftList = () => {
+  const { gifts, setGifts, deleteGift } = useContext(GiftsContext);
+  const fetchData = async () => {
+    try {
+      const response = await GiftFinder.get('/');
+      setGifts(response.data.data.gifts);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await GiftFinder.delete(`/${id}`);
+      deleteGift(id);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
   return (
     <div className='list-group'>
       <table className='table table-hover'>
@@ -15,18 +41,30 @@ const GiftList = () => {
           </tr>
         </thead>
         <tbody className='table-dark'>
-          <tr>
-            <td>goggles</td>
-            <td>winners</td>
-            <td>$$</td>
-            <td>ratings</td>
-            <td>
-              <button className='btn btn-warning'>update</button>
-            </td>
-            <td>
-              <button className='=btn btn-danger'>delete</button>
-            </td>
-          </tr>
+          {gifts &&
+            gifts.map((item) => {
+              return (
+                <tr key={item.id}>
+                  <td>{item.name}</td>
+                  <td>{item.vendor}</td>
+                  <td>{'$'.repeat(item.price_range)}</td>
+                  <td>ratings</td>
+                  <td>
+                    <Link to={`/gifts/${item.id}/update`}>
+                      <button className='btn btn-warning'>update</button>
+                    </Link>
+                  </td>
+                  <td>
+                    <button
+                      className='btn btn-danger'
+                      onClick={() => handleDelete(item.id)}
+                    >
+                      delete
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

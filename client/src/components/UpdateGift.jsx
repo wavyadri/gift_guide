@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import GiftFinder from '../apis/GiftFinder';
 
 const UpdateGift = () => {
   const { id } = useParams();
+  let navigate = useNavigate();
   const [name, setName] = useState('');
   const [vendor, setVendor] = useState('');
   const [priceRange, setPriceRange] = useState(1);
@@ -11,11 +12,23 @@ const UpdateGift = () => {
   const fetchData = async () => {
     try {
       const response = await GiftFinder.get(`/${id}`);
-      // setGifts(response.data.data.gifts);
-      console.log(response.data.data.gift);
       setName(response.data.data.gift.name);
       setVendor(response.data.data.gift.vendor);
       setPriceRange(response.data.data.gift.price_range);
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const updatedGifts = await GiftFinder.put(`/${id}`, {
+        name,
+        vendor,
+        price_range: priceRange,
+      });
+      navigate('/');
     } catch (err) {
       console.log(err.message);
     }
@@ -59,7 +72,9 @@ const UpdateGift = () => {
             className='form-control'
           />
         </div>
-        <button className='btn btn-primary'>Submit</button>
+        <button className='btn btn-primary' onClick={handleSubmit}>
+          Submit
+        </button>
       </form>
     </>
   );

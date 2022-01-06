@@ -22,7 +22,6 @@ const GiftList = () => {
     try {
       const response = await GiftFinder.delete(`/${id}`);
       deleteGift(id);
-      console.log(response);
     } catch (err) {
       console.log(err.message);
     }

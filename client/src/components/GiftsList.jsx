@@ -1,7 +1,8 @@
 import React, { useContext, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import GiftFinder from '../apis/GiftFinder';
 import { GiftsContext } from '../context/GiftsContext';
+import StarRating from './StarRating';
 
 const GiftList = () => {
   const { gifts, setGifts, deleteGift } = useContext(GiftsContext);
@@ -34,6 +35,18 @@ const GiftList = () => {
     }
   };
 
+  const renderRating = (gift) => {
+    if (!gift.count) {
+      return <span className='text-warning'>0 reviews</span>;
+    }
+    return (
+      <>
+        <StarRating rating={gift.average_rating} />
+        <span className='text-warning mx-1'>({gift.count})</span>
+      </>
+    );
+  };
+
   return (
     <div className='list-group'>
       <table className='table table-hover'>
@@ -55,7 +68,7 @@ const GiftList = () => {
                   <td>{item.name}</td>
                   <td>{item.vendor}</td>
                   <td>{'$'.repeat(item.price_range)}</td>
-                  <td>ratings</td>
+                  <td>{renderRating(item)}</td>
                   <td>
                     <button
                       onClick={(e) => handleUpdate(e, item.id)}

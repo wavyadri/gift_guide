@@ -3,6 +3,8 @@ import { useParams } from 'react-router-dom';
 import { GiftsContext } from '../context/GiftsContext';
 import GiftFinder from '../apis/GiftFinder';
 import StarRating from '../components/StarRating';
+import Reviews from '../components/Reviews';
+import AddReview from '../components/AddReview';
 
 const GitftItem = () => {
   const { id } = useParams();
@@ -24,6 +26,8 @@ const GitftItem = () => {
     <>
       <h1>{selectedGift && selectedGift.name}</h1>
       <StarRating rating={4.9} />
+      <Reviews />
+      <AddReview />
     </>
   );
 };

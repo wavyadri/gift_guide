@@ -13,12 +13,16 @@ app.use(express.json());
 // get all gifts
 app.get('/api/v1/gifts', async (req, res) => {
   try {
-    const results = await db.query('SELECT * FROM gifts');
+    // const results = await db.query('SELECT * FROM gifts');
+    const giftRatingsData = await db.query(
+      'SELECT * FROM gifts LEFT JOIN (SELECT gift_id, COUNT(*), TRUNC(AVG(rating),1) AS average_rating FROM reviews GROUP BY gift_id) reviews on gifts.id = reviews.gift_id;'
+    );
+
     res.status(200).json({
       status: 'success',
-      results: results.rows.length,
+      results: giftRatingsData.rows.length,
       data: {
-        gifts: results.rows,
+        gifts: giftRatingsData.rows,
       },
     });
   } catch (err) {
@@ -30,7 +34,10 @@ app.get('/api/v1/gifts', async (req, res) => {
 app.get('/api/v1/gifts/:id', async (req, res) => {
   const values = [req.params.id];
   try {
-    const gift = await db.query('SELECT * FROM gifts WHERE id = $1', values);
+    const gift = await db.query(
+      'SELECT * FROM gifts LEFT JOIN (SELECT gift_id, COUNT(*), TRUNC(AVG(rating),1) AS average_rating FROM reviews GROUP BY gift_id) reviews on gifts.id = reviews.gift_id WHERE id = $1',
+      values
+    );
 
     const reviews = await db.query(
       'SELECT * FROM reviews WHERE gift_id = $1',

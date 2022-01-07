@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { GiftsContext } from '../context/GiftsContext';
 import GiftFinder from '../apis/GiftFinder';
+import StarRating from '../components/StarRating';
 
 const GitftItem = () => {
   const { id } = useParams();
@@ -19,7 +20,12 @@ const GitftItem = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  return <h1>{selectedGift && selectedGift.name}</h1>;
+  return (
+    <>
+      <h1>{selectedGift && selectedGift.name}</h1>
+      <StarRating rating={4.9} />
+    </>
+  );
 };
 
 export default GitftItem;

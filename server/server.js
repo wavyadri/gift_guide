@@ -105,6 +105,25 @@ app.delete('/api/v1/gifts/:id', async (req, res) => {
   }
 });
 
+// add review
+app.post('/api/v1/gifts/:id/add-review', async (req, res) => {
+  const values = [req.params.id, req.body.name, req.body.text, req.body.rating];
+  try {
+    const results = await db.query(
+      'INSERT INTO reviews (gift_id, name, text, rating) VALUES ($1, $2, $3, $4) RETURNING *',
+      values
+    );
+    res.status(200).json({
+      status: 'success',
+      data: {
+        review: results.rows[0],
+      },
+    });
+  } catch (err) {
+    console.log(err.message);
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server is listening on ${PORT}...`);
 });

@@ -12,15 +12,20 @@ const AddReview = (props) => {
   const handleSubmitReview = async (e) => {
     e.preventDefault();
     try {
-      const response = await GiftFinder.post(`/${id}/addReview`, {
+      const response = await GiftFinder.post(`/${id}/add-review`, {
         name,
         text: reviewText,
         rating,
       });
-      // history.push('/');
-      // history.push(location.pathname);
+
+      // trigger hard refresh
+      window.location.reload(false);
     } catch (err) {
       console.log(err.message);
+    } finally {
+      setName('');
+      setReviewText('');
+      setRating('Rating');
     }
   };
 
@@ -28,7 +33,7 @@ const AddReview = (props) => {
     <div className='mb-2'>
       <form action=''>
         <div className='form-row'>
-          <div className='form-group col-8'>
+          <div className='form-group col mb-3'>
             <label htmlFor='name'>Name</label>
             <input
               value={name}
@@ -39,13 +44,13 @@ const AddReview = (props) => {
               className='form-control'
             />
           </div>
-          <div className='form-group col-4'>
+          <div className='form-group col mb-3'>
             <label htmlFor='rating'>Rating</label>
             <select
               value={rating}
               onChange={(e) => setRating(e.target.value)}
               id='rating'
-              className='custom-select'
+              className='form-select'
             >
               <option disabled>Rating</option>
               <option value='1'>1</option>
@@ -56,7 +61,7 @@ const AddReview = (props) => {
             </select>
           </div>
         </div>
-        <div className='form-group'>
+        <div className='form-group mb-3'>
           <label htmlFor='review'>Review</label>
           <textarea
             value={reviewText}

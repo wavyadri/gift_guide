@@ -32,7 +32,7 @@ const GitftItem = () => {
         <StarRating rating={4.2} />
       </div>
       <div className='mt-3'>
-        <Reviews reviews={selectedGift.reviews} />
+        {selectedGift && <Reviews reviews={selectedGift.reviews} />}
       </div>
       <AddReview />
     </>

@@ -4,6 +4,7 @@ const GiftsContext = createContext();
 
 const GiftsContextProvider = (props) => {
   const [gifts, setGifts] = useState([]);
+  const [selectedGift, setSelectedGift] = useState(null);
 
   const addGift = (gift) => {
     setGifts([...gifts, gift]);
@@ -17,7 +18,16 @@ const GiftsContextProvider = (props) => {
   };
 
   return (
-    <GiftsContext.Provider value={{ gifts, setGifts, addGift, deleteGift }}>
+    <GiftsContext.Provider
+      value={{
+        gifts,
+        setGifts,
+        addGift,
+        deleteGift,
+        selectedGift,
+        setSelectedGift,
+      }}
+    >
       {props.children}
     </GiftsContext.Provider>
   );

@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import GiftFinder from '../apis/GiftFinder';
 import { GiftsContext } from '../context/GiftsContext';
 
 const GiftList = () => {
   const { gifts, setGifts, deleteGift } = useContext(GiftsContext);
+  const navigate = useNavigate();
   const fetchData = async () => {
     try {
       const response = await GiftFinder.get('/');
@@ -18,7 +19,13 @@ const GiftList = () => {
     fetchData();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleUpdate = (e, id) => {
+    e.stopPropagation();
+    navigate(`/gifts/${id}/update`);
+  };
+
+  const handleDelete = async (e, id) => {
+    e.stopPropagation();
     try {
       const response = await GiftFinder.delete(`/${id}`);
       deleteGift(id);
@@ -44,20 +51,23 @@ const GiftList = () => {
           {gifts &&
             gifts.map((item) => {
               return (
-                <tr key={item.id}>
+                <tr onClick={() => navigate(`/gifts/${item.id}`)} key={item.id}>
                   <td>{item.name}</td>
                   <td>{item.vendor}</td>
                   <td>{'$'.repeat(item.price_range)}</td>
                   <td>ratings</td>
                   <td>
-                    <Link to={`/gifts/${item.id}/update`}>
-                      <button className='btn btn-warning'>update</button>
-                    </Link>
+                    <button
+                      onClick={(e) => handleUpdate(e, item.id)}
+                      className='btn btn-warning'
+                    >
+                      update
+                    </button>
                   </td>
                   <td>
                     <button
                       className='btn btn-danger'
-                      onClick={() => handleDelete(item.id)}
+                      onClick={(e) => handleDelete(e, item.id)}
                     >
                       delete
                     </button>

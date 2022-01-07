@@ -25,16 +25,25 @@ const GitftItem = () => {
 
   return (
     <>
-      <h1 className='text-center display-1 text-capitalize'>
-        {selectedGift && selectedGift.gift.name}
-      </h1>
-      <div className='text-center'>
-        <StarRating rating={4.2} />
-      </div>
-      <div className='mt-3'>
-        {selectedGift && <Reviews reviews={selectedGift.reviews} />}
-      </div>
-      <AddReview />
+      {selectedGift && (
+        <>
+          <h1 className='text-center display-1 text-capitalize'>
+            {selectedGift.gift.name}
+          </h1>
+          <div className='text-center text-warning'>
+            <StarRating rating={selectedGift.gift.average_rating} />
+            <span className='text-warning mx-1'>
+              {selectedGift.gift.count
+                ? `(${selectedGift.gift.count}) `
+                : '(0)'}
+            </span>
+          </div>
+          <div className='mt-3'>
+            {<Reviews reviews={selectedGift.reviews} />}
+          </div>
+          <AddReview />
+        </>
+      )}
     </>
   );
 };

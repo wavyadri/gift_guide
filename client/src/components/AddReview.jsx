@@ -42,6 +42,7 @@ const AddReview = (props) => {
               placeholder='name'
               type='text'
               className='form-control'
+              required
             />
           </div>
           <div className='form-group col mb-3'>

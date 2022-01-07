@@ -12,8 +12,8 @@ CREATE TABLE gifts (
 
 CREATE TABLE reviews (
   id SERIAL PRIMARY KEY NOT NULL,
-  gift_id INTEGER NOT NULL REFERENCES gifts(id),
+  gift_id INTEGER NOT NULL REFERENCES gifts(id) ON DELETE CASCADE,
   name VARCHAR(50) NOT NULL,
   text TEXT NOT NULL,
   rating INT NOT NULL check(rating >= 1 and rating <= 5)
-)
+);

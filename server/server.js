@@ -30,11 +30,18 @@ app.get('/api/v1/gifts', async (req, res) => {
 app.get('/api/v1/gifts/:id', async (req, res) => {
   const values = [req.params.id];
   try {
-    const results = await db.query('SELECT * FROM gifts WHERE id = $1', values);
+    const gift = await db.query('SELECT * FROM gifts WHERE id = $1', values);
+
+    const reviews = await db.query(
+      'SELECT * FROM reviews WHERE gift_id = $1',
+      values
+    );
+
     res.status(200).json({
       status: 'success',
       data: {
-        gift: results.rows[0],
+        gift: gift.rows[0],
+        reviews: reviews.rows,
       },
     });
   } catch (err) {

@@ -13,7 +13,7 @@ const GitftItem = () => {
   const fetchData = async () => {
     try {
       const response = await GiftFinder.get(`/${id}`);
-      setSelectedGift(response.data.data.gift);
+      setSelectedGift(response.data.data);
     } catch (err) {
       console.log(err.message);
     }
@@ -22,11 +22,18 @@ const GitftItem = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <>
-      <h1>{selectedGift && selectedGift.name}</h1>
-      <StarRating rating={4.9} />
-      <Reviews />
+      <h1 className='text-center display-1 text-capitalize'>
+        {selectedGift && selectedGift.gift.name}
+      </h1>
+      <div className='text-center'>
+        <StarRating rating={4.2} />
+      </div>
+      <div className='mt-3'>
+        <Reviews reviews={selectedGift.reviews} />
+      </div>
       <AddReview />
     </>
   );

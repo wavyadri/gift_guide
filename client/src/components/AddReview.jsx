@@ -17,8 +17,8 @@ const AddReview = (props) => {
         text: reviewText,
         rating,
       });
-      history.push('/');
-      history.push(location.pathname);
+      // history.push('/');
+      // history.push(location.pathname);
     } catch (err) {
       console.log(err.message);
     }

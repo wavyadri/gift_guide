@@ -12,8 +12,15 @@
 - Read and Create star rating reviews
 
 ### RESTful API Endpoints
-| Route | Method |
-|-------|--------|
+
+| Route                 | Method |
+| --------------------- | ------ |
+| /gifts                | GET    |
+| /gifts/:id            | GET    |
+| /gifts                | POST   |
+| /gifts/:id            | PUT    |
+| /gifts/:id            | DELETE |
+| /gifts/:id/add-review | POST   |
 
 ### Dependencies
 - nodemon

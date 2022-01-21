@@ -11,5 +11,12 @@
 - Create, Update, or Delete list items
 - Read and Create star rating reviews
 
+### RESTful API Endpoints
+| Route | Method |
+|-------|--------|
+
 ### Dependencies
-nodemon, dotenv, express
+- nodemon
+- dotenv
+- express
+- axios
